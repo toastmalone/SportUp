@@ -43,7 +43,7 @@ namespace SportUp.Controllers
             var viewModel = new TeamIndexViewModel()
             {
                 AvailableSports = allSports,
-                CurrentlyEnrolledTeams = _userManager.GetEnrolledTeams(currentUser),
+                CurrentlyEnrolledTeams = _userManager.GetEnrolledTeams(currentUser).Where(s => s.IsPickupTeam == false).ToList(),
             };
 
             return View(viewModel);
@@ -60,6 +60,35 @@ namespace SportUp.Controllers
                 TeamName = viewModel.TeamName,
                 TeamSportType = teamSport,
                 TeamPlayStyle = viewModel.PlayStyle,
+                IsPickupTeam = false,
+                TeamCreationDate = DateTime.Now,
+                UserTeams = new List<UserTeam>
+                {
+                    new UserTeam()
+                    {
+                        SportUpUser = currentUser,
+                    }
+                }
+            };
+
+            await _teamManager.CreateTeamAsync(team);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePickupTeam(TeamIndexViewModel viewModel)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var teamSport = await _sportManager.GetSportAsync(viewModel.TeamSportId);
+
+            var team = new Team()
+            {
+                TeamSportType = teamSport,
+                IsPickupTeam = true,
+                TeamCreationDate = DateTime.Now,
+                TeamMaxPlayers = viewModel.MaxPlayers,
+                MeetingTime = viewModel.MeetingTime,
                 UserTeams = new List<UserTeam>
                 {
                     new UserTeam()
@@ -125,7 +154,10 @@ namespace SportUp.Controllers
         public async Task<IActionResult> ViewEnrolledTeams()
         {
             var user = await _userManager.GetUserAsync(User);
-            var teams = _userManager.GetEnrolledTeams(user);
+            var teams = _userManager
+                .GetEnrolledTeams(user)
+                .Where(s => s.IsPickupTeam == false)
+                .ToList();
             return View("JoinedTeams", teams);
         }
     }

@@ -15,12 +15,18 @@ namespace SportUp.Data.Models
         Event,
     }
 
+    public enum GeneralMeetingTimes
+    {
+        Morning,
+        Afternoon,
+        Evening
+    }
+
     public class Team
     {
         [Key]
         public int Id { get; set; }
 
-        [Required]
         public string TeamName { get; set; }
 
         [Required]
@@ -31,5 +37,13 @@ namespace SportUp.Data.Models
 
         [Required]
         public TeamPlayStyle TeamPlayStyle { get; set; }
+
+        public int TeamMaxPlayers { get; set; }
+
+        public DateTime TeamCreationDate { get; set; }
+
+        public bool IsPickupTeam { get; set; }
+
+        public GeneralMeetingTimes MeetingTime { get; set; }
     }
 }

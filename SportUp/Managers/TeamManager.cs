@@ -39,6 +39,7 @@ namespace SportUp.Managers
         {
             if (predicate == null)
                 return await _context.Teams
+                    .Where(s => s.IsPickupTeam == false)
                     .Include(s => s.TeamSportType)
                     .Include(s => s.UserTeams)
                     .OrderByDescending(s => s.Id)
@@ -46,12 +47,13 @@ namespace SportUp.Managers
                     .ToListAsync();
 
             return await _context.Teams
-                    .Include(s => s.TeamSportType)
-                    .Include(s => s.UserTeams)
-                    .Where(predicate)
-                    .OrderByDescending(s => s.Id)
-                    .Take(10)
-                    .ToListAsync();
+                .Where(s => s.IsPickupTeam == false)
+                .Include(s => s.TeamSportType)
+                .Include(s => s.UserTeams)
+                .Where(predicate)
+                .OrderByDescending(s => s.Id)
+                .Take(10)
+                .ToListAsync();
         }
     }
 }

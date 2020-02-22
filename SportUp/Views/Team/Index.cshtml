@@ -5,6 +5,30 @@
 
 <h1>Teams</h1>
 
+<h3>Create Pickup Team</h3>
+<form asp-action="CreatePickupTeam" asp-controller="Team" method="post" name="CreatePickupTeamForm">
+    <label asp-for="@Model.TeamSportId"></label>
+    <select asp-for="@Model.TeamSportId" asp-items="@(new SelectList(Model.AvailableSports, "Id", "Name"))">
+        <option>Select Sport</option>
+    </select>
+
+    <br />
+    <br />
+
+    <label asp-for="@Model.MaxPlayers"></label>
+    <input asp-for="@Model.MaxPlayers" max="15" />
+
+    <br />
+    <br />
+
+    <label asp-for="@Model.MeetingTime"></label>
+    <select asp-for="@Model.MeetingTime" asp-items="(Html.GetEnumSelectList<GeneralMeetingTimes>())">
+        <option>Select Meeting Time</option>
+    </select>
+
+    <input type="submit" />
+</form>
+
 <h3>Create Team</h3>
 <form asp-action="CreateTeam" asp-controller="Team" method="post" name="CreateTeamForm">
     <label asp-for="@Model.TeamName"></label>

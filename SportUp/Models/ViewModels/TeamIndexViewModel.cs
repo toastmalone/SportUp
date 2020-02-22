@@ -24,5 +24,11 @@ namespace SportUp.Models.ViewModels
 
         [Display(Name = "Team Play Style")]
         public TeamPlayStyle PlayStyle { get; set; }
+
+        [Display(Name = "Max players")]
+        public int MaxPlayers { get; set; }
+
+        [Display(Name = "Meeting Time")]
+        public GeneralMeetingTimes MeetingTime { get; set; }
     }
 }

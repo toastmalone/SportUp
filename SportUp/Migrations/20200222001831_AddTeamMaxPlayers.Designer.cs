@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportUp.Data;
 
 namespace SportUp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200222001831_AddTeamMaxPlayers")]
+    partial class AddTeamMaxPlayers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,12 +242,6 @@ namespace SportUp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsPickupTeam")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("MeetingTime")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("TeamCreationDate")
                         .HasColumnType("datetime(6)");
 
@@ -253,6 +249,7 @@ namespace SportUp.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TeamName")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("TeamPlayStyle")
